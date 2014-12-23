@@ -1,6 +1,6 @@
 ;;; company-restclient.el --- company-mode completion back-end for restclient-mode
 
-;; Copyright (C) 2014 by Iku Iwasa
+;; Public domain.
 
 ;; Author:    Iku Iwasa <iku.iwasa@gmail.com>
 ;; URL:       https://github.com/iquiw/company-restclient
