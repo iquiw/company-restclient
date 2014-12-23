@@ -4,7 +4,7 @@
 
 ;; Author:    Iku Iwasa <iku.iwasa@gmail.com>
 ;; URL:       https://github.com/iquiw/company-restclient
-;; Version:   0.0.0
+;; Version:   0.0.1
 ;; Package-Requires: ((cl-lib "0.5") (company "0.8.0") (emacs "24") (know-your-http-well "0.2.0"))
 
 ;;; Commentary:
@@ -46,7 +46,7 @@
   "Provide completion prefix at the current point."
   (cl-case (setq company-restclient--current-context
                  (company-restclient--find-context))
-    (method (let ((case-fold-search nil)) (company-grab "^[CDGHOPT]*")))
+    (method (let ((case-fold-search nil)) (company-grab "^[[:upper:]]*")))
     (header (company-grab-symbol))))
 
 (defun company-restclient-candidates (prefix)
