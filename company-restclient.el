@@ -16,6 +16,7 @@
 
 ;;; Code:
 
+(require 'cl-lib)
 (require 'company)
 (require 'know-your-http-well)
 
