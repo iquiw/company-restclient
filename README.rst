@@ -1,6 +1,6 @@
-====================
- company-restclient
-====================
+============================
+ company-restclient |melpa|
+============================
 
 `Company-mode`_ completion back-end for `restclient-mode`_.
 
@@ -17,6 +17,18 @@ Depends
 * `company-mode`_
 * `know-your-http-well`_
 
+Setup from MELPA_
+-----------------
+1. Install from `MELPA`_::
+
+     M-x package-install RET company-restclient RET
+
+
+2. Add ``company-restclient`` to ``company-backends`` after loading `company-mode`_.
+
+   .. code:: emacs-lisp
+
+     (add-to-list 'company-backends 'company-restclient)
 
 Setup from Git
 --------------
@@ -50,3 +62,6 @@ Public domain
 .. _company-mode: http://company-mode.github.io/
 .. _restclient-mode: https://github.com/pashky/restclient.el
 .. _know-your-http-well: https://github.com/for-GET/know-your-http-well
+.. _MELPA: http://melpa.milkbox.net/
+.. |melpa| image:: http://melpa.org/packages/company-restclient-badge.svg
+           :target: http://melpa.org/#/company-restclient
