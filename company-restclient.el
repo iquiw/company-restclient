@@ -47,7 +47,7 @@
   (cl-case (setq company-restclient--current-context
                  (company-restclient--find-context))
     (method (let ((case-fold-search nil)) (company-grab "^[[:upper:]]*")))
-    (header (company-grab-symbol))))
+    (header (company-grab "^[-[:alpha:]]*"))))
 
 (defun company-restclient-candidates (prefix)
   "Provide completion candidates for the given PREFIX."

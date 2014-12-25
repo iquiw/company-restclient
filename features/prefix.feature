@@ -179,3 +179,13 @@ Feature: company-restclient prefix
     """
     When I execute company-restclient prefix command at current point
     Then company-restclient prefix is "Content-T"
+
+  Scenario: No prefix
+    Given the buffer is empty
+    When I insert:
+    """
+    PUT http://example.com
+    Content-Type: 
+    """
+    When I execute company-restclient prefix command at current point
+    Then company-restclient prefix none
