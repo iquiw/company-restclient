@@ -30,7 +30,7 @@
         (while (and (>= (forward-line -1) 0)
                     (null (looking-at-p "^#")))
           (cond
-           ((looking-at-p "^[[:space:]]*$")
+           ((looking-at-p "^\\([[:space:]]*$\\|:\\)")
             (cond
              ((= state 0) (setq state 1))
              ((= state 2) (setq state 3))))
