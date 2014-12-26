@@ -17,9 +17,11 @@
 (require 'restclient)
 
 (defvar company-cabal-test-prefix-output)
+(defvar company-cabal-test-candidates-output)
 
 (Before
  (setq company-restclient-test-prefix-output nil)
+ (setq company-restclient-test-candidates-output nil)
  (switch-to-buffer
   (get-buffer-create "*company-restclient*"))
  (restclient-mode))
