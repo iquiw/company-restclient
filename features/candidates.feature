@@ -23,8 +23,8 @@ Feature: company-restclient candidate
     Given the buffer is empty
     When I insert:
     """
-    :var1 := 1
-    :var2 := 2
+    :var1 = 1
+    :var2 = 2
     GET http://example.com/:v
     """
     And I execute company-restclient candidates command at current point
