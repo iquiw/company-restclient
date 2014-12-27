@@ -4,8 +4,8 @@
 
 ;; Author:    Iku Iwasa <iku.iwasa@gmail.com>
 ;; URL:       https://github.com/iquiw/company-restclient
-;; Version:   0.0.2
-;; Package-Requires: ((cl-lib "0.5") (company "0.8.0") (emacs "24") (know-your-http-well "0.2.0"))
+;; Version:   0.1.0
+;; Package-Requires: ((cl-lib "0.5") (company "0.8.0") (emacs "24") (know-your-http-well "0.2.0") (restclient "0.0.0"))
 
 ;;; Commentary:
 
@@ -19,6 +19,7 @@
 (require 'cl-lib)
 (require 'company)
 (require 'know-your-http-well)
+(require 'restclient)
 
 (defvar company-restclient--current-context nil)
 
@@ -44,16 +45,24 @@
 
 (defun company-restclient-prefix ()
   "Provide completion prefix at the current point."
-  (cl-case (setq company-restclient--current-context
-                 (company-restclient--find-context))
-    (method (let ((case-fold-search nil)) (company-grab "^[[:upper:]]*")))
-    (header (company-grab "^[-[:alpha:]]*"))))
+  (or
+   (company-grab ".\\(:[^: \n]*\\)" 1)
+   (cl-case (company-restclient--find-context)
+     (method (let ((case-fold-search nil)) (company-grab "^[[:upper:]]*")))
+     (header (company-grab "^[-[:alpha:]]*")))))
 
 (defun company-restclient-candidates (prefix)
   "Provide completion candidates for the given PREFIX."
-  (cl-case company-restclient--current-context
-    (method (all-completions prefix (mapcar #'car http-methods)))
-    (header (all-completions (downcase prefix) (mapcar #'car http-headers)))))
+  (cond
+   ((string-match-p "^:" prefix)
+    (all-completions
+     prefix
+     (sort (mapcar #'car (restclient-find-vars-before-point)) #'string<)))
+   (t
+    (cl-case (setq company-restclient--current-context
+                   (company-restclient--find-context))
+      (method (all-completions prefix (mapcar #'car http-methods)))
+      (header (all-completions (downcase prefix) (mapcar #'car http-headers)))))))
 
 (defun company-restclient-meta (candidate)
   "Return description of CANDIDATE to display as meta information."

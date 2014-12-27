@@ -180,12 +180,52 @@ Feature: company-restclient prefix
     When I execute company-restclient prefix command at current point
     Then company-restclient prefix is "Content-T"
 
+  Scenario: Variable prefix
+    Given the buffer is empty
+    When I insert:
+    """
+    GET http://example.com/users/:uid
+    """
+    When I execute company-restclient prefix command at current point
+    Then company-restclient prefix is ":uid"
+
+    Given the buffer is empty
+    When I insert:
+    """
+    GET http://example.com/users
+    Cookie: sid=:sid
+    """
+    When I execute company-restclient prefix command at current point
+    Then company-restclient prefix is ":sid"
+
+    Given the buffer is empty
+    When I insert:
+    """
+    PUT http://example.com/users
+    Cookie: sid=1234567890
+    
+    {
+       "name": ":the-name"
+    }
+    """
+    When I place the cursor after "the-name"
+    And I execute company-restclient prefix command at current point
+    Then company-restclient prefix is ":the-name"
+
   Scenario: No prefix
     Given the buffer is empty
     When I insert:
     """
     PUT http://example.com
     Content-Type: 
+    """
+    When I execute company-restclient prefix command at current point
+    Then company-restclient prefix none
+
+    Given the buffer is empty
+    When I insert:
+    """
+    :var
     """
     When I execute company-restclient prefix command at current point
     Then company-restclient prefix none
