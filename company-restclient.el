@@ -26,43 +26,59 @@
 (defun company-restclient--find-context ()
   "Find context (method, header, body) of the current line."
   (save-excursion
-    (catch 'result
-      (let ((state 0))
-        (while (and (>= (forward-line -1) 0)
-                    (null (looking-at-p "^#")))
-          (cond
-           ((looking-at-p "^\\([[:space:]]*$\\|:\\)")
+    (forward-line 0)
+    (cond
+     ((looking-at-p "^:") 'vardecl)
+     ((looking-at-p "^#") 'comment)
+     (t
+      (catch 'result
+        (let ((state 0))
+          (while (and (>= (forward-line -1) 0)
+                      (null (looking-at-p "^#")))
             (cond
-             ((= state 0) (setq state 1))
-             ((= state 2) (setq state 3))))
-           ((= state 0) (setq state 2))
-           ((or (= state 1) (= state 3))
-            (throw 'result 'body))))
+             ((looking-at-p "^\\([[:space:]]*$\\|:\\)")
+              (cond
+               ((= state 0) (setq state 1))
+               ((= state 2) (setq state 3))))
+             ((= state 0) (setq state 2))
+             ((or (= state 1) (= state 3))
+              (throw 'result 'body))))
 
-        (if (or (= state 0) (= state 1))
-            (throw 'result 'method)
-          (throw 'result 'header))))))
+          (if (or (= state 0) (= state 1))
+              (throw 'result 'method)
+            (throw 'result 'header))))))))
 
 (defun company-restclient-prefix ()
   "Provide completion prefix at the current point."
-  (or
-   (company-grab ".\\(:[^: \n]*\\)" 1)
-   (cl-case (company-restclient--find-context)
-     (method (let ((case-fold-search nil)) (company-grab "^[[:upper:]]*")))
-     (header (company-grab "^[-[:alpha:]]*")))))
+  (cl-case (company-restclient--find-context)
+    (method (or (let ((case-fold-search nil)) (company-grab "^[[:upper:]]*"))
+                (company-restclient--grab-var)))
+    (header (or (company-grab "^[-[:alpha:]]*")
+                (and (not (looking-back "^[-[:alpha:]]+:"))
+                     (company-restclient--grab-var))))
+    (vardecl nil)
+    (comment nil)
+    (t (company-restclient--grab-var))))
+
+(defun company-restclient--grab-var ()
+  "Grab variable for completion prefix."
+  (company-grab ".\\(:[^: \n]*\\)" 1))
 
 (defun company-restclient-candidates (prefix)
   "Provide completion candidates for the given PREFIX."
   (cond
    ((string-match-p "^:" prefix)
+    (setq company-restclient--current-context 'varref)
     (all-completions
      prefix
      (sort (mapcar #'car (restclient-find-vars-before-point)) #'string<)))
    (t
     (cl-case (setq company-restclient--current-context
                    (company-restclient--find-context))
-      (method (all-completions prefix (mapcar #'car http-methods)))
-      (header (all-completions (downcase prefix) (mapcar #'car http-headers)))))))
+      (method
+       (all-completions prefix (mapcar #'car http-methods)))
+      (header
+       (all-completions (downcase prefix) (mapcar #'car http-headers)))))))
 
 (defun company-restclient-meta (candidate)
   "Return description of CANDIDATE to display as meta information."
@@ -83,7 +99,8 @@ For HTTP header, capitalize if necessary and insert colon and space after it."
                       (let ((case-fold-search nil))
                         (looking-at-p "[[:upper:]]")))
                 (delete-region start end)
-                (insert (mapconcat 'capitalize (split-string candidate "-") "-"))))
+                (insert
+                 (mapconcat 'capitalize (split-string candidate "-") "-"))))
             (insert ": "))))
 
 ;;;###autoload
