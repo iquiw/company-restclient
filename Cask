@@ -5,5 +5,4 @@
 
 (development
  (depends-on "ecukes")
- (depends-on "espuds")
- (depends-on "restclient"))
+ (depends-on "espuds"))
