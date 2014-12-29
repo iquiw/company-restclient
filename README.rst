@@ -16,6 +16,7 @@ Depends
 * cl-lib
 * `company-mode`_
 * `know-your-http-well`_
+* `restclient-mode`_
 
 Setup from MELPA_
 -----------------
@@ -54,6 +55,8 @@ Feature
   | Otherwise, the completion result contains lowercase characters only (e.g. "content-type").
 
 * Description about HTTP method and header is shown in minibuffer
+
+* Variable name completion
 
 License
 =======
