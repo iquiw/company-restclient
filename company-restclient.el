@@ -76,9 +76,9 @@
     (cl-case (setq company-restclient--current-context
                    (company-restclient--find-context))
       (method
-       (all-completions prefix (mapcar #'car http-methods)))
+       (all-completions prefix http-methods))
       (header
-       (all-completions (downcase prefix) (mapcar #'car http-headers)))))))
+       (all-completions (downcase prefix) http-headers))))))
 
 (defun company-restclient-meta (candidate)
   "Return description of CANDIDATE to display as meta information."
