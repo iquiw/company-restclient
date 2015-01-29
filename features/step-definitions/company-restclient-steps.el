@@ -7,6 +7,10 @@
         (setq company-restclient-test-prefix-output
               (company-restclient 'prefix))))
 
+(When "^I execute company-restclient post-completion with \"\\(.*\\)\""
+      (lambda (str)
+        (company-restclient 'post-completion str)))
+
 (Then "^company-restclient prefix is\\(?: \"\\(.*\\)\"\\|:\\)$"
       (lambda (expected)
         (should (equal company-restclient-test-prefix-output expected))))
