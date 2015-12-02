@@ -180,6 +180,26 @@ Feature: company-restclient prefix
     When I execute company-restclient prefix command at current point
     Then company-restclient prefix is "Content-T"
 
+  Scenario: Header value prefix
+    Given the buffer is empty
+    When I insert:
+    """
+    GET http://example.com/
+    Content-Type: app
+    """
+    When I execute company-restclient prefix command at current point
+    Then company-restclient prefix is "app"
+
+    Given the buffer is empty
+    When I insert:
+    """
+    GET http://example.com/
+    Accept-Language: ja
+    Content-Type: application/j
+    """
+    When I execute company-restclient prefix command at current point
+    Then company-restclient prefix is "application/j"
+
   Scenario: Variable prefix
     Given the buffer is empty
     When I insert:
@@ -216,8 +236,7 @@ Feature: company-restclient prefix
     Given the buffer is empty
     When I insert:
     """
-    PUT http://example.com
-    Content-Type:
+    PUT http
     """
     When I execute company-restclient prefix command at current point
     Then company-restclient prefix none

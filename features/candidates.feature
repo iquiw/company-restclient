@@ -29,3 +29,13 @@ Feature: company-restclient candidate
     """
     And I execute company-restclient candidates command at current point
     Then company-restclient candidates are "(":var1" ":var2")"
+
+  Scenario: Header value candidates
+    Given the buffer is empty
+    When I insert:
+    """
+    POST http://example.com
+    Content-Type: text
+    """
+    And I execute company-restclient candidates command at current point
+    Then company-restclient candidates are "("text/csv" "text/html" "text/plain")"
