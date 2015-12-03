@@ -67,11 +67,11 @@ License
 =======
 Public domain
 
-.. _company-mode: http://company-mode.github.io/
+.. _company-mode: https://company-mode.github.io/
 .. _restclient-mode: https://github.com/pashky/restclient.el
 .. _know-your-http-well: https://github.com/for-GET/know-your-http-well
-.. _MELPA: http://melpa.milkbox.net/
+.. _MELPA: https://melpa.org/
 .. |travis| image:: https://travis-ci.org/iquiw/company-restclient.svg?branch=master
             :target: https://travis-ci.org/iquiw/company-restclient
-.. |melpa| image:: http://melpa.org/packages/company-restclient-badge.svg
-           :target: http://melpa.org/#/company-restclient
+.. |melpa| image:: https://melpa.org/packages/company-restclient-badge.svg
+           :target: https://melpa.org/#/company-restclient
