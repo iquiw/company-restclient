@@ -51,10 +51,15 @@ Feature
 
 * HTTP header name completion
 
-  | If header name starts with uppercase character, the completion result is capitalized (e.g. "Content-Type").
-  | Otherwise, the completion result contains lowercase characters only (e.g. "content-type").
+  If header name starts with uppercase character, the completion result is capitalized (e.g. "Content-Type").
+  Otherwise, the completion result contains lowercase characters only (e.g. "content-type").
 
-* Description about HTTP method and header is shown in minibuffer
+* HTTP header value completion
+
+  If header name matches with key of a cutomizable association list, ``company-restclient-header-values``,
+  the corresponding value, list of strings, is used for completion candidates.
+
+* Description about HTTP method and header is displayed in minibuffer
 
 * Variable name completion
 
