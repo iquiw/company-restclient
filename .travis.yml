@@ -3,19 +3,21 @@ language: generic
 sudo: false
 
 env:
-  - EVM_EMACS=emacs-24.5-travis
-  - EVM_EMACS=emacs-25.3-travis
-  - EVM_EMACS=emacs-26.1-travis
+  global:
+    - CURL="curl -fsSL"
+  matrix:
+    - EMACS_VERSION=24.5
+    - EMACS_VERSION=25.3
+    - EMACS_VERSION=26.2
 
 before_install:
-  - export PATH="$HOME/.evm/bin:$HOME/.cask/bin:$PATH"
-  - git clone https://github.com/rejeep/evm.git /home/travis/.evm
-  - evm config path /tmp
-  - evm install $EVM_EMACS --use
-  - export EMACS=$(which emacs)
-  - curl -fsSkL https://raw.github.com/cask/cask/master/go | python
+  - $CURL -O https://github.com/npostavs/emacs-travis/releases/download/bins/emacs-bin-${EMACS_VERSION}.tar.gz
+  - tar -xaf emacs-bin-${EMACS_VERSION}.tar.gz -C /
+  - export EMACS=/tmp/emacs/bin/emacs
+  - $CURL https://raw.githubusercontent.com/cask/cask/master/go | python
 
 install:
+  - export PATH=$HOME/.cask/bin:$PATH
   - cask install
 
 script:
