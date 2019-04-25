@@ -66,13 +66,13 @@ The key is header name and the value is list of header values.")
     (header (or (company-grab "^[-[:alpha:]]*")
                 (company-restclient--grab-var)
                 (company-grab-symbol)))
-    (vardecl nil)
     (comment nil)
+    ;; Try to grab variable for vardecl too, as it can be variable reference.
     (t (company-restclient--grab-var))))
 
 (defun company-restclient--grab-var ()
   "Grab variable for completion prefix."
-  (company-grab ".\\(:[^: \n]*\\)" 1))
+  (company-grab "\\(:[^: \n]*\\)" 1))
 
 (defun company-restclient-candidates (prefix)
   "Provide completion candidates for the given PREFIX."

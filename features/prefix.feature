@@ -232,19 +232,19 @@ Feature: company-restclient prefix
     And I execute company-restclient prefix command at current point
     Then company-restclient prefix is ":the-name"
 
+    Given the buffer is empty
+    When I insert:
+    """
+    :var
+    """
+    When I execute company-restclient prefix command at current point
+    Then company-restclient prefix is ":var"
+
   Scenario: No prefix
     Given the buffer is empty
     When I insert:
     """
     PUT http
-    """
-    When I execute company-restclient prefix command at current point
-    Then company-restclient prefix none
-
-    Given the buffer is empty
-    When I insert:
-    """
-    :var
     """
     When I execute company-restclient prefix command at current point
     Then company-restclient prefix none
