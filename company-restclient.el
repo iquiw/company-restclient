@@ -4,7 +4,7 @@
 
 ;; Author:    Iku Iwasa <iku.iwasa@gmail.com>
 ;; URL:       https://github.com/iquiw/company-restclient
-;; Version:   0.2.0
+;; Version:   0.3.0
 ;; Package-Requires: ((cl-lib "0.5") (company "0.8.0") (emacs "24") (know-your-http-well "0.2.0") (restclient "0.0.0"))
 
 ;;; Commentary:
