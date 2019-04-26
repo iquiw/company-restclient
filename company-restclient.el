@@ -1,4 +1,4 @@
-;;; company-restclient.el --- company-mode completion back-end for restclient-mode
+;;; company-restclient.el --- company-mode completion back-end for restclient-mode  -*- lexical-binding: t -*-
 
 ;; Public domain.
 
